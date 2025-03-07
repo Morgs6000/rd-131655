@@ -31,8 +31,8 @@ public class Level {
                 for(int z = 0; z < d; z++) {
                     // Calcula o índice no array para a posição (x, y, z)
                     int i = (y * depth + z) * width + x;
-                    // Define o bloco como sólido (valor 1)
-                    blocks[i] = 1;
+                    // Define o bloco como sólido (valor 1) se estiver abaixo de 2/3 da altura do nível
+                    blocks[i] = (byte)(y <= h * 2 / 3 ? 1 : 0);
                 }
             }
         }

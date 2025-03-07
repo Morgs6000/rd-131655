@@ -41,8 +41,19 @@ public class Chunk {
         for(int x = x0; x < x1; x++) {
             for(int y = y0; y < y1; y++) {
                 for(int z = z0; z < z1; z++) {
-                    // Configura os vértices e texturas de cada tile (bloco) no chunk
-                    Tile.tile.OnLoad(t, level, x, y, z);
+                    // Verifica se há um bloco na posição (x, y, z)
+                    if(level.IsTile(x, y, z)) {
+                        // Define se a textura será de grama ou rocha com base na altura
+                        bool tex = y != level.height * 2 / 3;
+
+                        // Carrega a textura apropriada
+                        if(tex) {
+                            Tile.rock.OnLoad(t, level, x, y, z);
+                        }
+                        else {
+                            Tile.grass.OnLoad(t, level, x, y, z);
+                        }
+                    }
                 }
             }
         }

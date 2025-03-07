@@ -2,7 +2,16 @@ namespace RubyDung;
 
 public class Tile {
     // Instancia estatica da classe Tile para ser acessada globalmente
-    public static Tile tile = new Tile();
+    public static Tile rock = new Tile(1);
+    public static Tile grass = new Tile(0);
+
+    // Índice da textura do bloco no atlas de texturas
+    private int tex = 0;
+
+    // Construtor privado para inicializar o índice da textura
+    private Tile(int tex) {
+        this.tex = tex;
+    }
 
     // Metodo chamado para carregar os dados do tile (bloco) no Tesselator
     public void OnLoad(Tesselator t, Level level, int x, int y, int z) {
@@ -17,7 +26,7 @@ public class Tile {
 
         // Define as coordenadas de textura iniciais (u0, v0) e finais (u1, v1)
         // u0 e v0 representam o canto inferior esquerdo da textura no atlas
-        float u0 = 0.0f; // Coordenada u inicial
+        float u0 = (float)tex / 16.0f; // Coordenada u inicial
         float v0 = (16.0f - 1.0f) / 16.0f; // Coordenada v inicial
         
         // u1 e v1 representam o canto superior direito da textura no atlas
