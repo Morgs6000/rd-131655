@@ -6,16 +6,24 @@ namespace RubyDung;
 public class Tesselator {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
 
-    // Buffer de vértices contendo as coordenadas de um triângulo (x, y)
+    // Buffer de vértices contendo as coordenadas de um quadrado (x, y)
     private List<float> vertexBuffer = new List<float> {
         -0.5f, -0.5f, // Vértice 1 - inferior esquerdo
          0.5f, -0.5f, // Vértice 2 - inferior direito
-         0.0f,  0.5f  // Vértice 3 - topo
+         0.5f,  0.5f, // Vértice 3 - superior direito
+        -0.5f,  0.5f  // Vértice 4 - superior esquerdo
     };
 
-    // Identificadores para o Vertex Array Object (VAO) e Vertex Buffer Object (VBO)
+    // Buffer de índices que define como os vértices são conectados para formar triângulos
+    private List<int> indiceBuffer = new List<int> {
+        0, 1, 2, // Primeiro triângulo (vértices 0, 1, 2)
+        0, 2, 3  // Segundo triângulo (vértices 0, 2, 3)
+    };
+
+    // Identificadores para o Vertex Array Object (VAO), Vertex Buffer Object (VBO) e Element Buffer Object (EBO)
     private int VAO; // VAO armazena a configuração dos buffers e atributos de vértices
     private int VBO; // VBO armazena os dados dos vértices na GPU
+    private int EBO; // EBO armazena os índices que definem como os vértices são conectados
 
     // Construtor da classe Tesselator
     public Tesselator(Shader shader) {
@@ -25,11 +33,13 @@ public class Tesselator {
     // Método chamado para configurar os buffers e atributos de vértices
     public void OnLoad() {
         /* ..:: Vertex Array Object ::.. */
+
         // Gera um VAO e o vincula
         VAO = GL.GenVertexArray();
         GL.BindVertexArray(VAO);
 
         /* ..:: Vertex Buffer Object ::.. */
+
         // Gera um VBO e o vincula
         VBO = GL.GenBuffer();
         GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -42,13 +52,21 @@ public class Tesselator {
         GL.VertexAttribPointer(aPos, 2, VertexAttribPointerType.Float, false, 0, 0);
         // Habilita o atributo de vértice "aPos"
         GL.EnableVertexAttribArray(aPos);
+
+        /* ..:: Element Buffer Object ::.. */
+
+        // Gera um EBO e o vincula
+        EBO = GL.GenBuffer();
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO);
+        // Envia os dados do buffer de índices para a GPU
+        GL.BufferData(BufferTarget.ElementArrayBuffer, indiceBuffer.Count * sizeof(int), indiceBuffer.ToArray(), BufferUsageHint.StaticDraw);
     }
 
     // Método chamado para renderizar a geometria
     public void OnRenderFrame() {
         // Vincula o VAO que contém os buffers e atributos de vértices
         GL.BindVertexArray(VAO);
-        // Desenha o triângulo usando os vértices configurados
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        // Desenha os triângulos usando os índices configurados
+        GL.DrawElements(PrimitiveType.Triangles, indiceBuffer.Count, DrawElementsType.UnsignedInt, 0);
     }
 }
