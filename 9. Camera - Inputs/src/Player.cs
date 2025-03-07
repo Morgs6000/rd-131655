@@ -1,0 +1,105 @@
+using OpenTK.Mathematics; // Fornece funcionalidades matemáticas, como vetores e matrizes
+using OpenTK.Windowing.Desktop; // Fornece funcionalidades para criar e gerenciar janelas
+using OpenTK.Windowing.GraphicsLibraryFramework; // Fornece acesso ao GLFW para manipulação de entrada
+
+namespace RubyDung;
+
+// Classe que representa o jogador e suas propriedades relacionadas à câmera
+public class Player {
+    // Posição do jogador no espaço 3D
+    // private Vector3 postion = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
+    private Vector3 postion = new Vector3(0.0f, 0.0f, -3.0f); // Posição inicial em (0, 0, -3)
+
+    // Vetores que definem a orientação da câmera
+    private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
+    private Vector3 vertical = Vector3.UnitY;   // Vetor vertical (eixo Y)
+    private Vector3 direction = Vector3.UnitZ;  // Vetor de direção (eixo Z)
+
+    // Variáveis para controle de tempo e movimento suave
+    private float deltaTime = 0.0f; // Tempo decorrido desde o último frame
+    private float lastFrame = 0.0f; // Tempo do último frame
+
+    private float walking = 4.317f; // Velocidade de movimento do jogador
+
+    // Método chamado a cada frame para atualizar a lógica do jogador
+    public void OnUpdateFrame(GameWindow window) {
+        Time(); // Atualiza o tempo decorrido
+        ProcessInput(window.KeyboardState); // Processa a entrada do teclado
+    }
+
+    // Método para calcular o tempo decorrido desde o último frame
+    private void Time() {
+        float currentFrame = (float)GLFW.GetTime(); // Obtém o tempo atual
+        deltaTime = currentFrame - lastFrame; // Calcula o tempo decorrido
+        lastFrame = currentFrame; // Atualiza o tempo do último frame
+    }
+
+    // Método para processar a entrada do teclado e mover o jogador
+    private void ProcessInput(KeyboardState keyboardState) {
+        float speed = walking * deltaTime; // Calcula a velocidade de movimento com base no tempo decorrido
+
+
+        float x = 0.0f; // Movimento no eixo X
+        float y = 0.0f; // Movimento no eixo Y
+        float z = 0.0f; // Movimento no eixo Z
+
+        // Verifica as teclas pressionadas e define a direção do movimento
+        if(keyboardState.IsKeyDown(Keys.W)) {
+            z++; // Move para frente
+        }
+        if(keyboardState.IsKeyDown(Keys.S)) {
+            z--; // Move para trás
+        }
+        if(keyboardState.IsKeyDown(Keys.A)) {
+            x--; // Move para a esquerda
+        }
+        if(keyboardState.IsKeyDown(Keys.D)) {
+            x++; // Move para a direita
+        }
+        
+        if(keyboardState.IsKeyDown(Keys.Space)) {
+            y++; // Move para cima
+        }
+        if(keyboardState.IsKeyDown(Keys.LeftShift)) {
+            y--; // Move para baixo
+        }
+
+        // Atualiza a posição do jogador com base na direção do movimento
+        postion += x * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
+        postion += y * speed * vertical; // Movimento vertical
+        postion += z * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
+    }
+
+    // Método para criar uma matriz de visualização (LookAt)
+    public Matrix4 LookAt() {
+        // Define o ponto de observação (olho) como a posição do jogador
+        Vector3 eye = postion;
+
+        // Define o ponto de destino (alvo) como a posição do jogador mais a direção
+        Vector3 target = postion + direction;
+
+        // Define o vetor "up" como o vetor vertical
+        Vector3 up = vertical;
+
+        // Retorna a matriz de visualização (LookAt) que define como a cena é vista
+        return Matrix4.LookAt(eye, target, up);
+    }
+
+    // Método para criar uma matriz de projeção em perspectiva
+    public Matrix4 CreatePerspectiveFieldOfView(Vector2i clientSize) {
+        // Define o campo de visão vertical (fovy) em radianos
+        float fovy = MathHelper.DegreesToRadians(70.0f);
+
+        // Define a proporção da tela (aspect ratio) como largura dividida pela altura
+        float aspect = (float)clientSize.X / (float)clientSize.Y;
+
+        // Define a distância do plano de corte próximo (depthNear)
+        float depthNear = 0.05f;
+
+        // Define a distância do plano de corte distante (depthFar)
+        float depthFar = 1000.0f;
+
+        // Retorna a matriz de projeção em perspectiva
+        return Matrix4.CreatePerspectiveFieldOfView(fovy, aspect, depthNear, depthFar);
+    }
+}
