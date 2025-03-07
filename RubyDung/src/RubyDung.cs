@@ -44,7 +44,7 @@ public class RubyDung : GameWindow {
         //GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
 
         // Inicializa a instância do Player para gerenciar a câmera e a perspectiva
-        player = new Player();
+        player = new Player(level);
         player.OnLoad(this);
 
         // Habilita o teste de profundidade (Depth Test) para renderização 3D

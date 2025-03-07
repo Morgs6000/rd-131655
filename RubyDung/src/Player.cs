@@ -7,9 +7,10 @@ namespace RubyDung;
 
 // Classe que representa o jogador e suas propriedades relacionadas à câmera
 public class Player {
+    private Level level; // Referência ao nível (Level) ao qual o jogador pertence
+
     // Posição do jogador no espaço 3D
-    // private Vector3 postion = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
-    private Vector3 postion = new Vector3(0.0f, 0.0f, 3.0f); // Posição inicial em (0, 0, -3)
+    private Vector3 postion = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
 
     // Vetores que definem a orientação da câmera
     private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
@@ -34,6 +35,12 @@ public class Player {
 
     private bool isGameReady = false; // Indica se o jogo está pronto para processar movimentos do mouse
 
+    // Construtor da classe Player
+    public Player(Level level) {
+        this.level = level;
+        ResetPos(); // Define a posição inicial do jogador
+    }
+
     // Método chamado quando o jogo é carregado
     public void OnLoad(GameWindow window) {
         window.CursorState = CursorState.Grabbed; // Captura o cursor do mouse para dentro da janela
@@ -49,6 +56,23 @@ public class Player {
         MouseCallBack(window.MouseState); // Processa o movimento do mouse
     }
 
+    // Método para redefinir a posição do jogador para uma posição aleatória no nível
+    private void ResetPos() {
+        Random random = new Random();
+        float x = (float)random.NextDouble() * (float)level.width;
+        float y = (float)(level.height + 10);
+        float z = (float)random.NextDouble() * (float)level.depth;
+
+        SetPos(x, y, z); // Define a nova posição do jogador
+    }
+
+    // Método para definir a posição do jogador
+    private void SetPos(float x, float y, float z) {
+        postion.X = x;
+        postion.Y = y;
+        postion.Z = z;
+    }
+
     // Método para calcular o tempo decorrido desde o último frame
     private void Time() {
         float currentFrame = (float)GLFW.GetTime(); // Obtém o tempo atual
@@ -60,10 +84,14 @@ public class Player {
     private void ProcessInput(KeyboardState keyboardState) {
         float speed = walking * deltaTime; // Calcula a velocidade de movimento com base no tempo decorrido
 
-
         float x = 0.0f; // Movimento no eixo X
         float y = 0.0f; // Movimento no eixo Y
         float z = 0.0f; // Movimento no eixo Z
+
+        // Verifica se a tecla R foi pressionada para redefinir a posição do jogador
+        if(keyboardState.IsKeyDown(Keys.R)) {
+            ResetPos();
+        }
 
         // Verifica as teclas pressionadas e define a direção do movimento
         if(keyboardState.IsKeyDown(Keys.W)) {
