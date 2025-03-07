@@ -13,7 +13,6 @@ public class RubyDung : GameWindow {
     private Tesselator t; // Instância da classe Tesselator para gerenciar a renderização de geometria
     private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
 
-
     // Construtor da classe RubyDung
     public RubyDung(GameWindowSettings gws, NativeWindowSettings nws) : base(gws, nws) {
         // Centraliza a janela ao iniciar
@@ -43,6 +42,7 @@ public class RubyDung : GameWindow {
 
         // Inicializa a instância do Player para gerenciar a câmera e a perspectiva
         player = new Player();
+        player.OnLoad(this);
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo

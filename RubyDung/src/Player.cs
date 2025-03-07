@@ -1,4 +1,5 @@
 using OpenTK.Mathematics; // Fornece funcionalidades matemáticas, como vetores e matrizes
+using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop; // Fornece funcionalidades para criar e gerenciar janelas
 using OpenTK.Windowing.GraphicsLibraryFramework; // Fornece acesso ao GLFW para manipulação de entrada
 
@@ -8,7 +9,7 @@ namespace RubyDung;
 public class Player {
     // Posição do jogador no espaço 3D
     // private Vector3 postion = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
-    private Vector3 postion = new Vector3(0.0f, 0.0f, -3.0f); // Posição inicial em (0, 0, -3)
+    private Vector3 postion = new Vector3(0.0f, 0.0f, 3.0f); // Posição inicial em (0, 0, -3)
 
     // Vetores que definem a orientação da câmera
     private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
@@ -20,11 +21,32 @@ public class Player {
     private float lastFrame = 0.0f; // Tempo do último frame
 
     private float walking = 4.317f; // Velocidade de movimento do jogador
+    
+    private Vector2 lastPos; // Última posição do mouse
+
+    private float pitch; // Rotação vertical da câmera (para cima/baixo)
+    private float yaw = -90.0f; // Rotação horizontal da câmera (para esquerda/direita)
+    private float roll; // Rotação de rotação (não utilizada neste exemplo)
+
+    private bool firstMouse = true; // Indica se é o primeiro movimento do mouse
+
+    private float sensitivity = 0.2f; // Sensibilidade do movimento do mouse
+
+    private bool isGameReady = false; // Indica se o jogo está pronto para processar movimentos do mouse
+
+    // Método chamado quando o jogo é carregado
+    public void OnLoad(GameWindow window) {
+        window.CursorState = CursorState.Grabbed; // Captura o cursor do mouse para dentro da janela
+        
+        // Marca o jogo como pronto para processar movimentos do mouse
+        isGameReady = true;
+    }
 
     // Método chamado a cada frame para atualizar a lógica do jogador
     public void OnUpdateFrame(GameWindow window) {
         Time(); // Atualiza o tempo decorrido
         ProcessInput(window.KeyboardState); // Processa a entrada do teclado
+        MouseCallBack(window.MouseState); // Processa o movimento do mouse
     }
 
     // Método para calcular o tempo decorrido desde o último frame
@@ -68,6 +90,43 @@ public class Player {
         postion += x * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
         postion += y * speed * vertical; // Movimento vertical
         postion += z * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
+    }
+
+    // Método para processar o movimento do mouse e atualizar a direção da câmera
+    public void MouseCallBack(MouseState mouseState) {
+        if(!isGameReady) {
+            return; // Ignora o movimento do mouse até que o jogo esteja pronto
+        }
+
+        if(firstMouse) {
+            // Se for o primeiro movimento do mouse, armazena a posição inicial
+            lastPos = new Vector2(mouseState.X, mouseState.Y);
+            firstMouse = false;
+        }
+        else {
+            // Calcula a diferença entre a posição atual e a última posição do mouse
+            float deltaX = mouseState.X - lastPos.X;
+            float deltaY = mouseState.Y - lastPos.Y;
+            lastPos = new Vector2(mouseState.X, mouseState.Y);
+
+            // Atualiza o pitch (rotação vertical) e o yaw (rotação horizontal) com base no movimento do mouse
+            pitch -= deltaY * sensitivity;
+            yaw   += deltaX * sensitivity;
+
+            // Limita o pitch para evitar rotações extremas
+            if(pitch < -89.0f) {
+                pitch = -89.0f;
+            }
+            if(pitch > 89.0f) {
+                pitch = 89.0f;
+            }
+        }
+
+        // Atualiza a direção da câmera com base no pitch e yaw
+        direction.X = (float)Math.Cos(MathHelper.DegreesToRadians(pitch)) * (float)Math.Cos(MathHelper.DegreesToRadians(yaw));
+        direction.Y = (float)Math.Sin(MathHelper.DegreesToRadians(pitch));
+        direction.Z = (float)Math.Cos(MathHelper.DegreesToRadians(pitch)) * (float)Math.Sin(MathHelper.DegreesToRadians(yaw));
+        direction = Vector3.Normalize(direction); // Normaliza o vetor de direção
     }
 
     // Método para criar uma matriz de visualização (LookAt)
