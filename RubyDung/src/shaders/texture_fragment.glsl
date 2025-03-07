@@ -8,6 +8,10 @@ out vec4 FragColor;
 // 'in vec2 texCoord' declara um vetor de 2 componentes (s, t) que representa as coordenadas de textura
 in vec2 texCoord;
 
+// Define uma variavel de entrada para a cor
+// 'in vec3 color' declara um vetor de 3 componentes (r, g, b) que representa a cor do vertice
+in vec3 color;
+
 // Define um uniform para a textura
 // 'uniform sampler2D texture0' declara um sampler2D que representa uma textura 2D
 uniform sampler2D texture0;
@@ -15,6 +19,10 @@ uniform sampler2D texture0;
 // Define um uniform para verificar se a textura deve ser usada
 // 'uniform bool hasTexture' declara um booleano que indica se a textura deve ser aplicada
 uniform bool hasTexture;
+
+// Define um uniform para verificar se a cor deve ser usada
+// 'uniform bool hasColor' declara um booleano que indica se a cor deve ser aplicada
+uniform bool hasColor;
 
 // Funcao principal do fragment shader
 void main() {
@@ -30,5 +38,11 @@ void main() {
     if(hasTexture) {
         // Aplica a textura usando as coordenadas de textura
         FragColor = texture(texture0, texCoord);
+        
+        // Verifica se a cor deve ser usada
+        if(hasColor) {
+            // Multiplica a cor atual pela cor passada do vertex shader
+            FragColor *= vec4(color, 1.0f);
+        }
     }
 }

@@ -9,6 +9,9 @@ public class Level {
     // Array que armazena os blocos do nível
     private byte[] blocks;
 
+    // Array que armazena as profundidades de luz para cada coluna (x, z)
+    private int[] lightDepths;
+
     // Construtor da classe Level
     public Level(int w, int h, int d) {
         // Inicializa as dimensões do nível
@@ -18,6 +21,9 @@ public class Level {
 
         // Cria um array para armazenar os blocos, com tamanho igual a width * height * depth
         blocks = new byte[w * h * d];
+
+        // Cria um array para armazenar as profundidades de luz, com tamanho igual a width * depth
+        lightDepths = new int[w * d];
 
         // Preenche o array de blocos com o valor 1 (representando blocos sólidos)
         for(int x = 0; x < w; x++) {
@@ -49,5 +55,22 @@ public class Level {
     public bool IsSolidTile(int x, int y, int z) {
         // Por enquanto, este método é idêntico ao IsTile, mas pode ser expandido no futuro
         return IsTile(x, y, z);
+    }
+
+    // Método para obter o brilho (brightness) em uma posição (x, y, z)
+    public float GetBrightness(int x, int y, int z) {
+        float dark = 0.8f; // Valor de brilho para áreas escuras
+        float light = 1.0f; // Valor de brilho para áreas claras
+
+        // Verifica se as coordenadas estão dentro dos limites do nível
+        if(x >= 0 && y >= 0 && z >= 0 && x < width && y < height && z < depth) {
+            // Se a posição y estiver abaixo da profundidade de luz, retorna o valor escuro
+            // Caso contrário, retorna o valor claro
+            return y < lightDepths[x + z * width] ? dark : light;
+        }
+        else {
+            // Se as coordenadas estiverem fora dos limites, retorna o valor claro
+            return light;
+        }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RubyDung")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+732378d24fd1798255e4080bf49dfedb436384bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edaba86a6065449ef2742a2ce64e77a63629bb48")]
 [assembly: System.Reflection.AssemblyProductAttribute("RubyDung")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RubyDung")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

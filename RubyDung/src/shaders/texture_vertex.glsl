@@ -10,9 +10,18 @@ layout(location = 0) in vec3 aPos;
 // 'in vec2 aTexCoord' declara um vetor de 2 componentes (s, t) que representa as coordenadas de textura
 layout(location = 1) in vec2 aTexCoord;
 
+// Define um atributo de entrada para a cor
+// 'layout(location = 2)' especifica que este atributo esta associado a localizacao 2
+// 'in vec3 aColor' declara um vetor de 3 componentes (r, g, b) que representa a cor do vertice
+layout(location = 2) in vec3 aColor;
+
 // Define uma variavel de saida para as coordenadas de textura
 // 'out vec2 texCoord' declara um vetor de 2 componentes que sera passado para o fragment shader
 out vec2 texCoord;
+
+// Define uma variavel de saida para a cor
+// 'out vec3 color' declara um vetor de 3 componentes que sera passado para o fragment shader
+out vec3 color;
 
 // Define um uniform para a matriz de visualizacao (view)
 // 'uniform mat4 view' declara uma matriz 4x4 que representa a transformacao de visualizacao
@@ -37,4 +46,7 @@ void main() {
 
     // Passa as coordenadas de textura para o fragment shader
     texCoord = aTexCoord;
+
+    // Passa a cor para o fragment shader
+    color = aColor;
 }

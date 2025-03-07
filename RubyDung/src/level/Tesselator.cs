@@ -15,18 +15,27 @@ public class Tesselator {
     // Buffer de coordenadas de textura (u, v) para mapear a textura no quadrado
     private List<float> texCoordBuffer = new List<float> {};
 
+    // Buffer de cores (r, g, b) para cada vértice
+    private List<float> colorBuffer = new List<float>();
+
     private int vertices = 0; // Contador de vértices adicionados
 
     private float u; // Coordenada U da textura
     private float v; // Coordenada V da textura
 
+    private float r; // Componente vermelha da cor
+    private float g; // Componente verde da cor
+    private float b; // Componente azul da cor
+
     private bool hasTexture = false; // Indica se a textura deve ser usada
+    private bool hasColor = false; // Indica se a cor deve ser usada
 
     // Identificadores para o Vertex Array Object (VAO), Vertex Buffer Object (VBO) e Element Buffer Object (EBO)
     private int VAO; // VAO armazena a configuração dos buffers e atributos de vértices
     private int VBO; // VBO armazena os dados dos vértices na GPU
     private int EBO; // EBO armazena os índices que definem como os vértices são conectados
     private int TBO; // TBO armazena as coordenadas de textura na GPU
+    private int CBO; // CBO armazena as cores dos vértices na GPU
 
     // Construtor da classe Tesselator
     public Tesselator(Shader shader) {
@@ -80,12 +89,30 @@ public class Tesselator {
             // Habilita o atributo de vértice "aTexCoord"
             GL.EnableVertexAttribArray(aTexCoord);
         }
+
+        /* ..:: Color Buffer Object ::.. */
+
+        if(hasColor) {
+            // Gera um CBO e o vincula
+            CBO = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, CBO);
+            // Envia os dados do buffer de cores para a GPU
+            GL.BufferData(BufferTarget.ArrayBuffer, colorBuffer.Count * sizeof(float), colorBuffer.ToArray(), BufferUsageHint.StaticDraw);
+
+            // Obtém a localização do atributo "aColor" no shader
+            int aColor = shader.GetAttribLocation("aColor");
+            // Define o layout do buffer de cores (atributo "aColor": 3 floats por vértice)
+            GL.VertexAttribPointer(aColor, 3, VertexAttribPointerType.Float, false, 0, 0);
+            // Habilita o atributo de vértice "aColor"
+            GL.EnableVertexAttribArray(aColor);
+        }
     }
 
     // Método chamado para renderizar a geometria
     public void OnRenderFrame() {
-        // Define se a textura deve ser usada no shader
+        // Define se a textura e a cor devem ser usadas no shader
         shader.SetBool("hasTexture", hasTexture);
+        shader.SetBool("hasColor", hasColor);
 
         // Vincula o VAO que contém os buffers e atributos de vértices
         GL.BindVertexArray(VAO);
@@ -104,6 +131,13 @@ public class Tesselator {
         if(hasTexture) {
             texCoordBuffer.Add(u);
             texCoordBuffer.Add(v);
+        }
+
+        // Se a cor estiver habilitada, adiciona as componentes de cor ao buffer de cores
+        if(hasColor) {
+            colorBuffer.Add(r);
+            colorBuffer.Add(g);
+            colorBuffer.Add(b);
         }
 
         // Incrementa o contador de vértices
@@ -133,5 +167,16 @@ public class Tesselator {
         // Define as coordenadas de textura
         this.u = u;
         this.v = v;
+    }
+
+    // Método para definir a cor
+    public void Color(float r, float g, float b) {
+        // Habilita o uso de cor
+        hasColor = true;
+
+        // Define as componentes de cor
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 }
