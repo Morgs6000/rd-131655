@@ -1,6 +1,6 @@
 # rd-131655 (Cave game tech test)
  
-Este projeto tem como objetivo recirar o Minecraft usando a linguagem C# e a biblioteca OpenTK.
+Este projeto tem como objetivo recriar o Minecraft usando a linguagem C# e a biblioteca OpenTK.
 
 Vamos começar do começo, começando pela primeira versão do Minecraft, a rd-131655.
 
