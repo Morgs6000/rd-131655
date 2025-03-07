@@ -93,9 +93,9 @@ World Spawn
   - Gerando um mundo de 256 x 64 x 256 blocos.
   - ❌ Carregar chunks com ordem de proximidade do jogador.
 - ❌ Fisica
-  - ⚠ AABB (Axis-Aligned Bounding Box)
+  - 🐞 AABB (Axis-Aligned Bounding Box)
     - Gerando um colisor AABB.
-  - ⚠ Gravidade e pulo
+  - 🐞 Gravidade e pulo
 
 ## Progresso
 ### Gerando uma Janela
