@@ -51,7 +51,7 @@ Luz
   - Os blocos escurecidos também têm uma camada de névoa preta espessa aplicada a eles, parecendo mais escuros quando vistos de distâncias maiores. Isso causou falhas visuais estranhas.
 
 Modo criativo
-- Esta foi uma versão extremamente básica dele. O jogador não podia voar ou colocar/remover blocos e não havia inventário ou barra de atalho para obtê-los.
+- Esta foi uma versão extremamente básica dele. O jogador não podia voar (no nosso caso pode) ou colocar/remover blocos e não havia inventário ou barra de atalho para obtê-los.
 
 World Spawn
 - O jogador poderia reaparecer pressionando <code><img height="30" src="https://github.com/user-attachments/assets/e49e3d70-d887-45ef-856c-13bc9d837166" /></code>, teletransportando-os para o mundo em que estavam.
