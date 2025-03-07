@@ -39,6 +39,9 @@ Chunks
 - O jogador aparece em um mapa de 256 x 64 x 256 blocos.
   - O jogo leva 20 segundos para gerar um mapa de 256 x 64 x 256 blocos.
 - Era possivel cair do mundo, mas não mataria o jogador.
+- A geração de níveis era completamente plana, o que era semelhante a um mundo superplano.
+- O mundo gerado é um cuboid de 256 x 42 x 256 blocos, com altura máxima de y64.
+- O mundo está cheio de pedra até y41, apenas grama em y42 e nada para a parte restante.
 
 ### Geral
 Luz
@@ -67,7 +70,7 @@ World Spawn
 - ✅ Gerando um Bloco
 - ✅ Gerando um Chunk de 16 x 16 x 16 blocos
 - ✅ Apagando faces não visiveis entre os blocos do chunk
-- ✅ Definindo a posição inicial do jogador
+- ✅ Definindo a posição inicial do jogador e respaw com a tecla R
 - ✅ Aplicando cor para gerar uma iluminação/sombra primitiva
 - ✅ Gerando camadas de pedra, grama e ar
 - ✅ Gerando um Mundo de 256 x 64 x 256 blocos
