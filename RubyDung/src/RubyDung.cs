@@ -10,6 +10,7 @@ namespace RubyDung;
 public class RubyDung : GameWindow {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
     private Texture texture; // Instância da textura que será aplicada na geometria
+    private Level level; // Instância da classe Level para gerenciar os blocos do mundo
     private Chunk chunk; // Instância da classe Chunk para gerenciar a renderização de múltiplos tiles
     private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
 
@@ -32,8 +33,11 @@ public class RubyDung : GameWindow {
         // Cria uma instância da textura, carregando a imagem do arquivo especificado
         texture = new Texture("src/textures/terrain.png");
 
+        // Cria um nível com 16x16x16 blocos
+        level = new Level(16, 16, 16);
+
         // Cria uma instância do Chunk com coordenadas de (0, 0, 0) a (16, 16, 16)
-        chunk = new Chunk(shader, 0, 0, 0, 16, 16, 16);
+        chunk = new Chunk(shader, level, 0, 0, 0, 16, 16, 16);
         chunk.OnLoad(); // Configura os vértices e texturas do chunk
 
         // wireframe

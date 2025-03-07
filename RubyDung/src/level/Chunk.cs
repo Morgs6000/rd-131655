@@ -1,6 +1,9 @@
 namespace RubyDung;
 
 public class Chunk {
+    // Referência ao nível (Level) ao qual este chunk pertence
+    public readonly Level level;
+
     // Coordenadas mínimas do chunk (início do bloco)
     public readonly int x0;
     public readonly int y0;
@@ -15,9 +18,12 @@ public class Chunk {
     private Tesselator t;
 
     // Construtor da classe Chunk
-    public Chunk(Shader shader, int x0, int y0, int z0, int x1, int y1, int z1) {
+    public Chunk(Shader shader, Level level, int x0, int y0, int z0, int x1, int y1, int z1) {
         // Inicializa o Tesselator com o shader fornecido
         t = new Tesselator(shader);
+
+        // Armazena a referência ao nível
+        this.level = level;
 
         // Define as coordenadas mínimas e máximas do chunk
         this.x0 = x0;
@@ -36,7 +42,7 @@ public class Chunk {
             for(int y = y0; y < y1; y++) {
                 for(int z = z0; z < z1; z++) {
                     // Configura os vértices e texturas de cada tile (bloco) no chunk
-                    Tile.tile.OnLoad(t, x, y, z);
+                    Tile.tile.OnLoad(t, level, x, y, z);
                 }
             }
         }
