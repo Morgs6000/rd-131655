@@ -30,3 +30,4 @@ D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\runtimes\win-x6
 D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\runtimes\win-x86\native\glfw3.dll
 D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.csproj.AssemblyReference.cache
 D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.csproj.Up2Date
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\StbImageSharp.dll

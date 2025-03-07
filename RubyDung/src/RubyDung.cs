@@ -8,6 +8,7 @@ namespace RubyDung;
 // Classe principal do jogo, que herda de GameWindow
 public class RubyDung : GameWindow {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
+    private Texture texture; // Instância da textura que será aplicada na geometria
     private Tesselator t; // Instância da classe Tesselator para gerenciar a renderização de geometria
 
     // Construtor da classe RubyDung
@@ -24,11 +25,17 @@ public class RubyDung : GameWindow {
         GL.ClearColor(0.5f, 0.8f, 1.0f, 0.0f);
 
         // Cria uma instância do shader, carregando os arquivos de vertex e fragment shader
-        shader = new Shader("src/shaders/shader_vertex.glsl", "src/shaders/shader_fragment.glsl");
+        shader = new Shader("src/shaders/texture_vertex.glsl", "src/shaders/texture_fragment.glsl");
+
+        // Cria uma instância da textura, carregando a imagem do arquivo especificado
+        texture = new Texture("src/textures/terrain.png");
 
         // Inicializa a instância do Tesselator e configura os buffers de vértices
         t = new Tesselator(shader);
         t.OnLoad();
+
+        // wireframe
+        //GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo
@@ -50,6 +57,9 @@ public class RubyDung : GameWindow {
 
         // Ativa o shader para uso na renderização
         shader.OnRenderFrame();
+
+        // Vincula a textura para uso na renderização
+        texture.OnRenderFrame();
 
         // Renderiza a geometria usando o Tesselator
         t.OnRenderFrame();
