@@ -53,6 +53,9 @@ public class RubyDung : GameWindow {
         if(KeyboardState.IsKeyPressed(Keys.Escape)) {
             Close();
         }
+
+        // Atualiza a lógica do jogador (movimentação da câmera, etc.)
+        player.OnUpdateFrame(this);
     }
 
     // Método chamado a cada frame para renderizar o jogo
