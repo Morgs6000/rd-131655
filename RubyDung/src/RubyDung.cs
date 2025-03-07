@@ -13,6 +13,7 @@ public class RubyDung : GameWindow {
     private Level level; // Instância da classe Level para gerenciar os blocos do mundo
     private LevelRenderer levelRenderer; // Instância da classe Level para gerenciar os blocos do mundo
     private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
+    private AABB aabb;
 
     // Construtor da classe RubyDung
     public RubyDung(GameWindowSettings gws, NativeWindowSettings nws) : base(gws, nws) {
@@ -34,7 +35,8 @@ public class RubyDung : GameWindow {
         texture = new Texture("src/textures/terrain.png");
 
         // Cria um nível com 256x64x256 blocos
-        level = new Level(256, 64, 256);
+        // level = new Level(256, 64, 256);
+        level = new Level(16, 16, 16);
         levelRenderer = new LevelRenderer(shader, level);
         levelRenderer.OnLoad();
 
@@ -50,6 +52,8 @@ public class RubyDung : GameWindow {
 
         // Habilita o culling de faces (Cull Face) para otimizar a renderização
         GL.Enable(EnableCap.CullFace);
+
+        aabb = new AABB(level, player);
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo
@@ -63,6 +67,8 @@ public class RubyDung : GameWindow {
 
         // Atualiza a lógica do jogador (movimentação da câmera, etc.)
         player.OnUpdateFrame(this);
+
+        aabb.OnUpdateFrame();
     }
 
     // Método chamado a cada frame para renderizar o jogo

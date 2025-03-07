@@ -10,7 +10,7 @@ public class Player {
     private Level level; // Referência ao nível (Level) ao qual o jogador pertence
 
     // Posição do jogador no espaço 3D
-    private Vector3 postion = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
+    public Vector3 position = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
 
     // Vetores que definem a orientação da câmera
     private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
@@ -68,9 +68,9 @@ public class Player {
 
     // Método para definir a posição do jogador
     private void SetPos(float x, float y, float z) {
-        postion.X = x;
-        postion.Y = y;
-        postion.Z = z;
+        position.X = x;
+        position.Y = y;
+        position.Z = z;
     }
 
     // Método para calcular o tempo decorrido desde o último frame
@@ -115,9 +115,9 @@ public class Player {
         }
 
         // Atualiza a posição do jogador com base na direção do movimento
-        postion += x * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
-        postion += y * speed * vertical; // Movimento vertical
-        postion += z * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
+        position += x * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
+        position += y * speed * vertical; // Movimento vertical
+        position += z * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
     }
 
     // Método para processar o movimento do mouse e atualizar a direção da câmera
@@ -160,10 +160,10 @@ public class Player {
     // Método para criar uma matriz de visualização (LookAt)
     public Matrix4 LookAt() {
         // Define o ponto de observação (olho) como a posição do jogador
-        Vector3 eye = postion;
+        Vector3 eye = position;
 
         // Define o ponto de destino (alvo) como a posição do jogador mais a direção
-        Vector3 target = postion + direction;
+        Vector3 target = position + direction;
 
         // Define o vetor "up" como o vetor vertical
         Vector3 up = vertical;
