@@ -1,0 +1,15 @@
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\RubyDung.exe
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\RubyDung.deps.json
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\RubyDung.runtimeconfig.json
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\RubyDung.dll
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\bin\Debug\net9.0\RubyDung.pdb
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.AssemblyInfoInputs.cache
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.AssemblyInfo.cs
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.csproj.CoreCompileInputs.cache
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.sourcelink.json
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.dll
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\refint\RubyDung.dll
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.pdb
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\RubyDung.genruntimeconfig.cache
+D:\GitHub\Meus Repositórios\rd-131655\RubyDung\obj\Debug\net9.0\ref\RubyDung.dll
