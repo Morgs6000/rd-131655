@@ -4,16 +4,23 @@ namespace RubyDung;
 
 // Classe responsável por gerenciar a tesselação e o desenho de geometria
 public class Tesselator {
+    private Shader shader; // Instância do shader que será usado para renderizar a geometria
+
     // Buffer de vértices contendo as coordenadas de um triângulo (x, y)
     private List<float> vertexBuffer = new List<float> {
-        -0.5f, -0.5f, // Vértice 1 // inferior esquerdo
-         0.5f, -0.5f, // Vértice 2 // inferior direito
-         0.0f,  0.5f  // Vértice 3 // topo
+        -0.5f, -0.5f, // Vértice 1 - inferior esquerdo
+         0.5f, -0.5f, // Vértice 2 - inferior direito
+         0.0f,  0.5f  // Vértice 3 - topo
     };
 
     // Identificadores para o Vertex Array Object (VAO) e Vertex Buffer Object (VBO)
-    private int VAO;
-    private int VBO;
+    private int VAO; // VAO armazena a configuração dos buffers e atributos de vértices
+    private int VBO; // VBO armazena os dados dos vértices na GPU
+
+    // Construtor da classe Tesselator
+    public Tesselator(Shader shader) {
+        this.shader = shader; // Recebe o shader que será usado para renderizar
+    }
 
     // Método chamado para configurar os buffers e atributos de vértices
     public void OnLoad() {
@@ -29,10 +36,12 @@ public class Tesselator {
         // Envia os dados do buffer de vértices para a GPU
         GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Count * sizeof(float), vertexBuffer.ToArray(), BufferUsageHint.StaticDraw);
 
-        // Define o layout do buffer de vértices (atributo 0: 2 floats por vértice)
-        GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 0, 0);
-        // Habilita o atributo de vértice 0
-        GL.EnableVertexAttribArray(0);
+        // Obtém a localização do atributo "aPos" no shader
+        int aPos = shader.GetAttribLocation("aPos");
+        // Define o layout do buffer de vértices (atributo "aPos": 2 floats por vértice)
+        GL.VertexAttribPointer(aPos, 2, VertexAttribPointerType.Float, false, 0, 0);
+        // Habilita o atributo de vértice "aPos"
+        GL.EnableVertexAttribArray(aPos);
     }
 
     // Método chamado para renderizar a geometria

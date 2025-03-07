@@ -7,6 +7,7 @@ namespace RubyDung;
 
 // Classe principal do jogo, que herda de GameWindow
 public class RubyDung : GameWindow {
+    private Shader shader; // Instância do shader que será usado para renderizar a geometria
     private Tesselator t; // Instância da classe Tesselator para gerenciar a renderização de geometria
 
     // Construtor da classe RubyDung
@@ -22,8 +23,11 @@ public class RubyDung : GameWindow {
         // Define a cor de fundo da tela (RGBA)
         GL.ClearColor(0.5f, 0.8f, 1.0f, 0.0f);
 
+        // Cria uma instância do shader, carregando os arquivos de vertex e fragment shader
+        shader = new Shader("src/shaders/shader_vertex.glsl", "src/shaders/shader_fragment.glsl");
+
         // Inicializa a instância do Tesselator e configura os buffers de vértices
-        t = new Tesselator();
+        t = new Tesselator(shader);
         t.OnLoad();
     }
 
@@ -43,6 +47,9 @@ public class RubyDung : GameWindow {
 
         // Limpa o buffer de cor com a cor definida em OnLoad
         GL.Clear(ClearBufferMask.ColorBufferBit);
+
+        // Ativa o shader para uso na renderização
+        shader.OnRenderFrame();
 
         // Renderiza a geometria usando o Tesselator
         t.OnRenderFrame();
