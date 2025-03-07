@@ -57,61 +57,102 @@ World Spawn
 - O jogador poderia reaparecer pressionando <code><img height="30" src="https://github.com/user-attachments/assets/e49e3d70-d887-45ef-856c-13bc9d837166" /></code>, teletransportando-os para o mundo em que estavam.
 
 ## To-Do
-- ✅ Gerar uma Janela
-- ✅ Gerar um Triangulo
-- ✅ Gerando um Shader
-- ✅ Gerando um Retangulo com dois triangulos
-- ✅ Gerando uma Textura usando um Texture Atlas
-- ✅ Recortando um Tile do Texture Atlas
-- ✅ Gerando um Icone de Janela
-- ✅ Gerando uma Camera
-- ✅ Movimentando a camera com as teclada W, A, S, D, Space e LeftShif
-- ✅ Rotacioando a camera com o mouse
-- ✅ Gerando um Bloco
-- ✅ Gerando um Chunk de 16 x 16 x 16 blocos
-- ✅ Apagando faces não visiveis entre os blocos do chunk
-- ✅ Definindo a posição inicial do jogador e respaw com a tecla R
-- ✅ Aplicando cor para gerar uma iluminação/sombra primitiva
-- ✅ Gerando camadas de pedra, grama e ar
-- ✅ Gerando um Mundo de 256 x 64 x 256 blocos
-- ❌ Carregar chunks com ordem de proximidade do jogador
-- ❌ "Iluminação" mais complexa
-- ⚠ Gerando um colisor AABB
-- ⚠ Gravidade e pulo
+- ✅ Janela
+  - Gerar uma Janela de 1024 x 768.
+  - Definir a cor de fundo com r0.5f, g0.8f, b1.0f, a0.0f.
+- ✅ Triangulo
+  - Gerar um triangulo.
+- ✅ Shader
+  - Criar um shader para aplicar cor ao triangulo.
+- ✅ Retangulo
+  - Gerar um retangulo usando dois triangulos.
+- ✅ Textura
+  - Gerar uma textura a partir de um atlas de textura.
+- ✅ Tile
+  - Recortar um tile do atlas de textura.
+- ✅ Icone de Janela
+  - Gerar um icone de janela.
+- ✅ Camera
+  - Configurar as matrizes 4x4.
+  - Movimentando a camera com as teclada W, A, S, D, Space e LeftShif.
+  - Rotacioando a camera com o mouse.
+- ✅ Bloco
+  - Gerar um bloco.
+- ✅ Chunk
+  - Gerando um chunk de 16 x 16 x 16 blocos.
+- ✅ Apagando Faces
+  - Apagar faces não visiveis entre os blocos do chunk.
+- ✅ SetPos
+  - Definindo a posição inicial do jogador e respaw com a tecla R.
+- ✅ Cor
+  - Aplicando cor para gerar uma iluminação/sombra primitiva.
+  - ❌ "Iluminação" mais complexa
+- ✅ Layers
+  - Gerando camadas de pedra, grama e ar.
+- ✅ Mundo
+  - Gerando um mundo de 256 x 64 x 256 blocos.
+  - ❌ Carregar chunks com ordem de proximidade do jogador.
+- ❌ Fisica
+  - ⚠ AABB (Axis-Aligned Bounding Box)
+    - Gerando um colisor AABB.
+  - ⚠ Gravidade e pulo
 
 ## Progresso
 ### Gerando uma Janela
-![Image](https://github.com/user-attachments/assets/7966c19c-859a-4bce-8f00-e0bf1c0dbe00)
+![Screenshot_439](https://github.com/user-attachments/assets/b92e0a74-9b51-4f55-9fe6-f256d95be919)
 
 ### Gerando um Triangulo
-![Image](https://github.com/user-attachments/assets/25c2726f-58b1-4294-a6d2-9634456b92aa)
+![Screenshot_440](https://github.com/user-attachments/assets/a897e3ed-f76a-4e99-a197-239f63f5abfa)
+
+### Shader
+![Screenshot_441](https://github.com/user-attachments/assets/e61e4daf-d4b2-46c9-8022-c3593ba196ef)
 
 ### Gerando um Retangulo
-![Image](https://github.com/user-attachments/assets/291910d8-603b-4fd0-895f-f97ef3c7c428)
+![Screenshot_442](https://github.com/user-attachments/assets/dc95487c-ca7b-4684-b53e-aadf16df6a4a)
 
-### Wireframe
-![Image](https://github.com/user-attachments/assets/b2a633a6-334c-411b-ab54-565fab955978)
+![Screenshot_454](https://github.com/user-attachments/assets/6a48d8ed-dd31-4bc5-955f-46fb2ad36dec)
+
+Wireframe
 
 ### Gerando uma Textura
-![Image](https://github.com/user-attachments/assets/15e6549f-d3c0-481d-a1e1-9ff0a81047e7)
+![Screenshot_443](https://github.com/user-attachments/assets/63f02f65-3446-4a7f-9fa7-120b31181668)
 
-### Recortando um Tile da Textura
-![Image](https://github.com/user-attachments/assets/116071de-dba1-4158-b410-80905653f143)
+![terrain](https://github.com/user-attachments/assets/00896d62-c014-4578-a88a-e68dce88e7c7)
+
+terrain.png
+
+### Recortando um Tile do Atlas te Textura
+![Screenshot_444](https://github.com/user-attachments/assets/6315302e-bda6-4546-b890-bb562ceb74ed)
+
+### Icone de Janela
+![Screenshot_445](https://github.com/user-attachments/assets/7fecdfc1-480a-49bf-a30e-c408dd18a582)
+
+![openTK_logo](https://github.com/user-attachments/assets/fa094034-f158-4ed4-b79e-8a1a7372e9dc)
+
+openTK_logo.png
+
+### Camera
+![Screenshot_446](https://github.com/user-attachments/assets/77d76bec-9714-4a5d-ba19-2247cc26b7ce)
 
 ### Gerando um Bloco
-![Image](https://github.com/user-attachments/assets/ec0bbdd3-8940-432f-b8b7-d9676fdf3c65)
-![Image](https://github.com/user-attachments/assets/90100421-fd1d-4d8d-a4e4-12e5b259a846)
+![Screenshot_447](https://github.com/user-attachments/assets/2188c5aa-f2a0-45ab-880a-6c8bd9b985e6)
 
 ### Gerando uma Chunk
-![Image](https://github.com/user-attachments/assets/1177d147-6aa7-491a-93ac-f25c1edf9fa7)
-![Image](https://github.com/user-attachments/assets/b46e172d-f2ae-48bb-b339-3d41d6cb6d0d)
-![Image](https://github.com/user-attachments/assets/f4d19992-60ff-4b56-b4b3-df31852fb696)
+![Screenshot_448](https://github.com/user-attachments/assets/5abfe88a-84eb-4eab-b2f6-8dd2267ebb78)
 
-### Gerando Camadas
-![Image](https://github.com/user-attachments/assets/b077e98c-ebbc-4191-93ea-2ab3ce3ca331)
+### Apagando Faces
+![Screenshot_449](https://github.com/user-attachments/assets/87cc83e7-8702-457e-ad93-13ba3680581d)
+
+![Screenshot_450](https://github.com/user-attachments/assets/8307fdd6-3725-4c26-b4da-54a4182d34c9)
+
+### Cor
+![Screenshot_451](https://github.com/user-attachments/assets/18de7ea5-f055-4a71-b412-8e936489a6c8)
+
+### Camadas
+![Screenshot_452](https://github.com/user-attachments/assets/60445357-a92a-4894-a3b8-da019eb85da2)
 
 ### Gerando um Mundo
-![Image](https://github.com/user-attachments/assets/6088ae86-0d36-44f9-b07d-00e1b9570e8c)
+![Screenshot_453](https://github.com/user-attachments/assets/66c583d8-e79b-4fa2-8f2f-5259c104631d)
 
 ### Referências
 - https://minecraft.wiki/w/Cave_game_tech_test
