@@ -57,8 +57,8 @@ World Spawn
 - O jogador poderia reaparecer pressionando <code><img height="30" src="https://github.com/user-attachments/assets/e49e3d70-d887-45ef-856c-13bc9d837166" /></code>, teletransportando-os para o mundo em que estavam.
 
 ## Referências
-- https://minecraft.wiki/w/Cave_game_tech_test
 - https://opentk.net/learn/index.html
+- https://minecraft.wiki/w/Cave_game_tech_test
 
 ## To-Do
 - ✅ Janela
