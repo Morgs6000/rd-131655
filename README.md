@@ -56,6 +56,9 @@ Modo criativo
 World Spawn
 - O jogador poderia reaparecer pressionando <code><img height="30" src="https://github.com/user-attachments/assets/e49e3d70-d887-45ef-856c-13bc9d837166" /></code>, teletransportando-os para o mundo em que estavam.
 
+### Referências
+- https://minecraft.wiki/w/Cave_game_tech_test
+
 ## To-Do
 - ✅ Janela
   - Gerar uma Janela de 1024 x 768.
@@ -153,6 +156,3 @@ openTK_logo.png
 
 ### Gerando um Mundo
 ![Screenshot_453](https://github.com/user-attachments/assets/66c583d8-e79b-4fa2-8f2f-5259c104631d)
-
-### Referências
-- https://minecraft.wiki/w/Cave_game_tech_test
