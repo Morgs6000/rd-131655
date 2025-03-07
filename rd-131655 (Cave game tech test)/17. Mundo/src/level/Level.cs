@@ -30,7 +30,7 @@ public class Level {
             for(int y = 0; y < h; y++) {
                 for(int z = 0; z < d; z++) {
                     // Calcula o índice no array para a posição (x, y, z)
-                    int i = (y * depth + z) * width + x;
+                    int i = (x + y * width) * depth + z;
                     // Define o bloco como sólido (valor 1) se estiver abaixo de 2/3 da altura do nível
                     blocks[i] = (byte)(y <= h * 2 / 3 ? 1 : 0);
                 }
@@ -43,7 +43,7 @@ public class Level {
         // Verifica se as coordenadas estão dentro dos limites do nível
         if(x >= 0 && y >= 0 && z >= 0 && x < width && y < height && z < depth) {
             // Calcula o índice no array e verifica se o bloco existe (valor 1)
-            return blocks[(y * depth + z) * width + z] == 1;
+            return blocks[(x + y * width) * depth + z] == 1;
         }
         else {
             // Se as coordenadas estiverem fora dos limites, retorna falso
