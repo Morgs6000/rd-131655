@@ -1,4 +1,5 @@
-using OpenTK.Graphics.OpenGL4; // Fornece acesso às funções do OpenGL 4
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics; // Fornece acesso às funções do OpenGL 4
 
 namespace RubyDung;
 
@@ -83,5 +84,13 @@ public class Shader {
         int location = GL.GetUniformLocation(program, name);
         // Define o valor do uniform (1 para true, 0 para false)
         GL.Uniform1(location, value ? 1 : 0);
+    }
+
+    // Método para definir uma matriz 4x4 em um uniform do shader
+    public void SetMatrix4(string name, Matrix4 matrix) {
+        // Obtém a localização do uniform no shader
+        int location = GL.GetUniformLocation(program, name);
+        // Define o valor do uniform como uma matriz 4x4
+        GL.UniformMatrix4(location, true, ref matrix);
     }
 }

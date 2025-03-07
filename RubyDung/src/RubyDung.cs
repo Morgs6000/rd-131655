@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4; // Fornece acesso às funções do OpenGL 4
+using OpenTK.Mathematics; // Fornece funcionalidades matemáticas, como vetores e matrizes
 using OpenTK.Windowing.Common; // Fornece funcionalidades comuns, como eventos de janela
 using OpenTK.Windowing.Desktop; // Fornece funcionalidades para criar e gerenciar janelas
 using OpenTK.Windowing.GraphicsLibraryFramework; // Fornece acesso ao GLFW para manipulação de entrada
@@ -10,6 +11,8 @@ public class RubyDung : GameWindow {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
     private Texture texture; // Instância da textura que será aplicada na geometria
     private Tesselator t; // Instância da classe Tesselator para gerenciar a renderização de geometria
+    private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
+
 
     // Construtor da classe RubyDung
     public RubyDung(GameWindowSettings gws, NativeWindowSettings nws) : base(gws, nws) {
@@ -37,6 +40,9 @@ public class RubyDung : GameWindow {
 
         // wireframe
         //GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
+
+        // Inicializa a instância do Player para gerenciar a câmera e a perspectiva
+        player = new Player();
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo
@@ -64,6 +70,16 @@ public class RubyDung : GameWindow {
 
         // Renderiza a geometria usando o Tesselator
         t.OnRenderFrame();
+
+        // Cria a matriz de visualização (view) a partir da posição e orientação do jogador
+        Matrix4 view = Matrix4.Identity;
+        view *= player.LookAt();
+        shader.SetMatrix4("view", view); // Passa a matriz de visualização para o shader
+
+        // Cria a matriz de projeção em perspectiva a partir do tamanho da janela
+        Matrix4 projection = Matrix4.Identity;
+        projection *= player.CreatePerspectiveFieldOfView(ClientSize);
+        shader.SetMatrix4("projection", projection); // Passa a matriz de projeção para o shader
 
         // Troca os buffers para exibir o que foi renderizado
         SwapBuffers();
