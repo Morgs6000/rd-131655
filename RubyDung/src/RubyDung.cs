@@ -32,7 +32,8 @@ public class RubyDung : GameWindow {
 
         // Inicializa a instância do Tesselator e configura os buffers de vértices
         t = new Tesselator(shader);
-        t.OnLoad();
+        Tile.tile.OnLoad(t); // Configura os vértices e texturas do tile
+        t.OnLoad(); // Configura os buffers e atributos de vértices na GPU
 
         // wireframe
         //GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);

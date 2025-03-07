@@ -12,8 +12,23 @@ in vec2 texCoord;
 // 'uniform sampler2D texture0' declara um sampler2D que representa uma textura 2D
 uniform sampler2D texture0;
 
+// Define um uniform para verificar se a textura deve ser usada
+// 'uniform bool hasTexture' declara um booleano que indica se a textura deve ser aplicada
+uniform bool hasTexture;
+
 // Funcao principal do fragment shader
 void main() {
-    // Aplica a textura usando as coordenadas de textura
-    FragColor = texture(texture0, texCoord);
+    // Define a cor do fragmento como um vetor RGBA
+    // vec4(1.0f, 0.5f, 0.2f, 1.0f) representa:
+    // - R = 1.0 (vermelho no maximo)
+    // - G = 0.5 (verde na metade)
+    // - B = 0.2 (azul em 20%)
+    // - A = 1.0 (totalmente opaco)
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+
+    // Verifica se a textura deve ser usada
+    if(hasTexture) {
+        // Aplica a textura usando as coordenadas de textura
+        FragColor = texture(texture0, texCoord);
+    }
 }

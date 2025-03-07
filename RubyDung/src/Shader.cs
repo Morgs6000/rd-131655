@@ -76,4 +76,12 @@ public class Shader {
     public int GetAttribLocation(string name) {
         return GL.GetAttribLocation(program, name);
     }
+
+    // Método para definir um valor booleano em um uniform do shader
+    public void SetBool(string name, bool value) {
+        // Obtém a localização do uniform no shader
+        int location = GL.GetUniformLocation(program, name);
+        // Define o valor do uniform (1 para true, 0 para false)
+        GL.Uniform1(location, value ? 1 : 0);
+    }
 }

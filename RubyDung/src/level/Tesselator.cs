@@ -7,26 +7,20 @@ public class Tesselator {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
 
     // Buffer de vértices contendo as coordenadas de um quadrado (x, y)
-    private List<float> vertexBuffer = new List<float> {
-        -0.5f, -0.5f, // Vértice 1 - inferior esquerdo
-         0.5f, -0.5f, // Vértice 2 - inferior direito
-         0.5f,  0.5f, // Vértice 3 - superior direito
-        -0.5f,  0.5f  // Vértice 4 - superior esquerdo
-    };
+    private List<float> vertexBuffer = new List<float> {};
 
     // Buffer de índices que define como os vértices são conectados para formar triângulos
-    private List<int> indiceBuffer = new List<int> {
-        0, 1, 2, // Primeiro triângulo (vértices 0, 1, 2)
-        0, 2, 3  // Segundo triângulo (vértices 0, 2, 3)
-    };
+    private List<int> indiceBuffer = new List<int> {};
 
     // Buffer de coordenadas de textura (s, t) para mapear a textura no quadrado
-    private List<float> texCoordBuffer = new List<float> {
-        0.0f, 0.0f, // Coordenada de textura para o vértice 1
-        1.0f, 0.0f, // Coordenada de textura para o vértice 2
-        1.0f, 1.0f, // Coordenada de textura para o vértice 3
-        0.0f, 1.0f  // Coordenada de textura para o vértice 4
-    };
+    private List<float> texCoordBuffer = new List<float> {};
+
+    private int vertices = 0; // Contador de vértices adicionados
+
+    private float u; // Coordenada U da textura
+    private float v; // Coordenada V da textura
+
+    private bool hasTexture = false; // Indica se a textura deve ser usada
 
     // Identificadores para o Vertex Array Object (VAO), Vertex Buffer Object (VBO) e Element Buffer Object (EBO)
     private int VAO; // VAO armazena a configuração dos buffers e atributos de vértices
@@ -72,25 +66,71 @@ public class Tesselator {
 
         /* ..:: Texture Buffer Object ::.. */
 
-        // Gera um TBO e o vincula
-        TBO = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ArrayBuffer, TBO);
-        // Envia os dados do buffer de coordenadas de textura para a GPU
-        GL.BufferData(BufferTarget.ArrayBuffer, texCoordBuffer.Count * sizeof(float), texCoordBuffer.ToArray(), BufferUsageHint.StaticDraw);
+        if(hasTexture) {
+            // Gera um TBO e o vincula
+            TBO = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, TBO);
+            // Envia os dados do buffer de coordenadas de textura para a GPU
+            GL.BufferData(BufferTarget.ArrayBuffer, texCoordBuffer.Count * sizeof(float), texCoordBuffer.ToArray(), BufferUsageHint.StaticDraw);
 
-        // Obtém a localização do atributo "aTexCoord" no shader
-        int aTexCoord = shader.GetAttribLocation("aTexCoord");
-        // Define o layout do buffer de coordenadas de textura (atributo "aTexCoord": 2 floats por vértice)
-        GL.VertexAttribPointer(aTexCoord, 2, VertexAttribPointerType.Float, false, 0, 0);
-        // Habilita o atributo de vértice "aTexCoord"
-        GL.EnableVertexAttribArray(aTexCoord);
+            // Obtém a localização do atributo "aTexCoord" no shader
+            int aTexCoord = shader.GetAttribLocation("aTexCoord");
+            // Define o layout do buffer de coordenadas de textura (atributo "aTexCoord": 2 floats por vértice)
+            GL.VertexAttribPointer(aTexCoord, 2, VertexAttribPointerType.Float, false, 0, 0);
+            // Habilita o atributo de vértice "aTexCoord"
+            GL.EnableVertexAttribArray(aTexCoord);
+        }
     }
 
     // Método chamado para renderizar a geometria
     public void OnRenderFrame() {
+        // Define se a textura deve ser usada no shader
+        shader.SetBool("hasTexture", hasTexture);
+
         // Vincula o VAO que contém os buffers e atributos de vértices
         GL.BindVertexArray(VAO);
         // Desenha os triângulos usando os índices configurados
         GL.DrawElements(PrimitiveType.Triangles, indiceBuffer.Count, DrawElementsType.UnsignedInt, 0);
+    }
+
+    // Método para adicionar um vértice ao buffer de vértices
+    public void Vertex(float x, float y) {
+        // Adiciona as coordenadas do vértice ao buffer de vértices
+        vertexBuffer.Add(x);
+        vertexBuffer.Add(y);
+
+        // Se a textura estiver habilitada, adiciona as coordenadas de textura ao buffer de coordenadas de textura
+        if(hasTexture) {
+            texCoordBuffer.Add(u);
+            texCoordBuffer.Add(v);
+        }
+
+        // Incrementa o contador de vértices
+        vertices++;
+
+        // Se 4 vértices foram adicionados, define os índices para formar dois triângulos
+        if(vertices % 4 == 0) {
+            int indices = vertices - 4;
+
+            // Primeiro triângulo (vértices 0, 1, 2)
+            indiceBuffer.Add(0 + indices);
+            indiceBuffer.Add(1 + indices);
+            indiceBuffer.Add(2 + indices);
+
+            // Segundo triângulo (vértices 0, 2, 3)
+            indiceBuffer.Add(0 + indices);
+            indiceBuffer.Add(2 + indices);
+            indiceBuffer.Add(3 + indices);
+        }
+    }
+
+    // Método para definir as coordenadas de textura
+    public void Tex(float u, float v) {
+        // Habilita o uso de textura
+        hasTexture = true;
+
+        // Define as coordenadas de textura
+        this.u = u;
+        this.v = v;
     }
 }
