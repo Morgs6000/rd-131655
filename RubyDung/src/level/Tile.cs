@@ -5,15 +5,15 @@ public class Tile {
     public static Tile tile = new Tile();
 
     // Metodo chamado para carregar os dados do tile (bloco) no Tesselator
-    public void OnLoad(Tesselator t) {
+    public void OnLoad(Tesselator t, int x, int y, int z) {
         // Define as coordenadas minimas e maximas do cubo (bloco)
-        float x0 = -0.5f; // Coordenada x minima
-        float y0 = -0.5f; // Coordenada y minima
-        float z0 = -0.5f; // Coordenada z minima
+        float x0 = (float)x + 0.0f; // Coordenada x minima
+        float y0 = (float)y + 0.0f; // Coordenada y minima
+        float z0 = (float)z + 0.0f; // Coordenada z minima
 
-        float x1 = 0.5f; // Coordenada x maxima
-        float y1 = 0.5f; // Coordenada y maxima
-        float z1 = 0.5f; // Coordenada z maxima
+        float x1 = (float)x + 1.0f; // Coordenada x maxima
+        float y1 = (float)y + 1.0f; // Coordenada y maxima
+        float z1 = (float)z + 1.0f; // Coordenada z maxima
 
         // Define as coordenadas de textura iniciais (u0, v0) e finais (u1, v1)
         // u0 e v0 representam o canto inferior esquerdo da textura no atlas

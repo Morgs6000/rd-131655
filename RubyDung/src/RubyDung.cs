@@ -10,7 +10,7 @@ namespace RubyDung;
 public class RubyDung : GameWindow {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
     private Texture texture; // Instância da textura que será aplicada na geometria
-    private Tesselator t; // Instância da classe Tesselator para gerenciar a renderização de geometria
+    private Chunk chunk; // Instância da classe Chunk para gerenciar a renderização de múltiplos tiles
     private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
 
     // Construtor da classe RubyDung
@@ -32,10 +32,9 @@ public class RubyDung : GameWindow {
         // Cria uma instância da textura, carregando a imagem do arquivo especificado
         texture = new Texture("src/textures/terrain.png");
 
-        // Inicializa a instância do Tesselator e configura os buffers de vértices
-        t = new Tesselator(shader);
-        Tile.tile.OnLoad(t); // Configura os vértices e texturas do tile
-        t.OnLoad(); // Configura os buffers e atributos de vértices na GPU
+        // Cria uma instância do Chunk com coordenadas de (0, 0, 0) a (16, 16, 16)
+        chunk = new Chunk(shader, 0, 0, 0, 16, 16, 16);
+        chunk.OnLoad(); // Configura os vértices e texturas do chunk
 
         // wireframe
         //GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
@@ -77,8 +76,8 @@ public class RubyDung : GameWindow {
         // Vincula a textura para uso na renderização
         texture.OnRenderFrame();
 
-        // Renderiza a geometria usando o Tesselator
-        t.OnRenderFrame();
+        // Renderiza o chunk (conjunto de tiles/blocos)
+        chunk.OnRenderFrame();
 
         // Cria a matriz de visualização (view) a partir da posição e orientação do jogador
         Matrix4 view = Matrix4.Identity;
