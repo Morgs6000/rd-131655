@@ -43,6 +43,12 @@ public class RubyDung : GameWindow {
         // Inicializa a instância do Player para gerenciar a câmera e a perspectiva
         player = new Player();
         player.OnLoad(this);
+
+        // Habilita o teste de profundidade (Depth Test) para renderização 3D
+        GL.Enable(EnableCap.DepthTest);
+
+        // Habilita o culling de faces (Cull Face) para otimizar a renderização
+        GL.Enable(EnableCap.CullFace);
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo
@@ -62,8 +68,8 @@ public class RubyDung : GameWindow {
     protected override void OnRenderFrame(FrameEventArgs args) {
         base.OnRenderFrame(args);
 
-        // Limpa o buffer de cor com a cor definida em OnLoad
-        GL.Clear(ClearBufferMask.ColorBufferBit);
+        // Limpa o buffer de cor e o buffer de profundidade com a cor definida em OnLoad
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         // Ativa o shader para uso na renderização
         shader.OnRenderFrame();

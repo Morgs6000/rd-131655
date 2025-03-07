@@ -6,13 +6,13 @@ namespace RubyDung;
 public class Tesselator {
     private Shader shader; // Instância do shader que será usado para renderizar a geometria
 
-    // Buffer de vértices contendo as coordenadas de um quadrado (x, y)
+    // Buffer de vértices contendo as coordenadas de um quadrado (x, y, z)
     private List<float> vertexBuffer = new List<float> {};
 
     // Buffer de índices que define como os vértices são conectados para formar triângulos
     private List<int> indiceBuffer = new List<int> {};
 
-    // Buffer de coordenadas de textura (s, t) para mapear a textura no quadrado
+    // Buffer de coordenadas de textura (u, v) para mapear a textura no quadrado
     private List<float> texCoordBuffer = new List<float> {};
 
     private int vertices = 0; // Contador de vértices adicionados
@@ -51,8 +51,8 @@ public class Tesselator {
 
         // Obtém a localização do atributo "aPos" no shader
         int aPos = shader.GetAttribLocation("aPos");
-        // Define o layout do buffer de vértices (atributo "aPos": 2 floats por vértice)
-        GL.VertexAttribPointer(aPos, 2, VertexAttribPointerType.Float, false, 0, 0);
+        // Define o layout do buffer de vértices (atributo "aPos": 3 floats por vértice)
+        GL.VertexAttribPointer(aPos, 3, VertexAttribPointerType.Float, false, 0, 0);
         // Habilita o atributo de vértice "aPos"
         GL.EnableVertexAttribArray(aPos);
 
@@ -94,10 +94,11 @@ public class Tesselator {
     }
 
     // Método para adicionar um vértice ao buffer de vértices
-    public void Vertex(float x, float y) {
+    public void Vertex(float x, float y, float z) {
         // Adiciona as coordenadas do vértice ao buffer de vértices
         vertexBuffer.Add(x);
         vertexBuffer.Add(y);
+        vertexBuffer.Add(z);
 
         // Se a textura estiver habilitada, adiciona as coordenadas de textura ao buffer de coordenadas de textura
         if(hasTexture) {

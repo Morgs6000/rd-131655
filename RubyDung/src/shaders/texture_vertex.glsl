@@ -2,8 +2,8 @@
 
 // Define um atributo de entrada para o vertex shader
 // 'layout(location = 0)' especifica que este atributo esta associado a localizacao 0
-// 'in vec2 aPos' declara um vetor de 2 componentes (x, y) que representa a posicao do vertice
-layout(location = 0) in vec2 aPos;
+// 'in vec3 aPos' declara um vetor de 3 componentes (x, y, z) que representa a posicao do vertice
+layout(location = 0) in vec3 aPos;
 
 // Define um atributo de entrada para as coordenadas de textura
 // 'layout(location = 1)' especifica que este atributo esta associado a localizacao 1
@@ -25,9 +25,9 @@ uniform mat4 projection;
 // Funcao principal do vertex shader
 void main() {
     // Define a posicao do vertice no espaco de clip (coordenadas normalizadas)
-    // 'aPos' e um vec2 (x, y), e ele e convertido para vec4 (x, y, z, w)
-    // z e definido como 0.0f (profundidade) e w como 1.0f (coordenada homogenea)
-    gl_Position = vec4(aPos, 0.0f, 1.0f);
+    // 'aPos' e um vec3 (x, y, z), e ele e convertido para vec4 (x, y, z, w)
+    // w e definido como 1.0f (coordenada homogenea)
+    gl_Position = vec4(aPos, 1.0f);
 
     // Aplica a transformacao de visualizacao (view) a posicao do vertice
     gl_Position *= view;
