@@ -13,7 +13,6 @@ public class RubyDung : GameWindow {
     private Level level; // Instância da classe Level para gerenciar os blocos do mundo
     private LevelRenderer levelRenderer; // Instância da classe Level para gerenciar os blocos do mundo
     private Player player; // Instância da classe Player para gerenciar a câmera e a perspectiva
-    private AABB aabb;
 
     // Construtor da classe RubyDung
     public RubyDung(GameWindowSettings gws, NativeWindowSettings nws) : base(gws, nws) {
@@ -52,8 +51,6 @@ public class RubyDung : GameWindow {
 
         // Habilita o culling de faces (Cull Face) para otimizar a renderização
         GL.Enable(EnableCap.CullFace);
-
-        aabb = new AABB(level, player);
     }
 
     // Método chamado a cada frame para atualizar a lógica do jogo
@@ -72,8 +69,6 @@ public class RubyDung : GameWindow {
     // Método chamado a cada frame para renderizar o jogo
     protected override void OnRenderFrame(FrameEventArgs args) {
         base.OnRenderFrame(args);
-
-        aabb.OnUpdateFrame();
 
         // Limpa o buffer de cor e o buffer de profundidade com a cor definida em OnLoad
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

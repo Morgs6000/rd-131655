@@ -57,6 +57,53 @@ public class Level {
         return IsTile(x, y, z);
     }
 
+    public List<AABB> GetCubes(AABB aabb) {
+        List<AABB> AABBs = new List<AABB>();
+
+        int x0 = (int)aabb.x0;
+        int x1 = (int)(aabb.x1 + 1.0f);
+        int y0 = (int)aabb.y0;
+        int y1 = (int)(aabb.y1 + 1.0f);
+        int z0 = (int)aabb.z0;
+        int z1 = (int)(aabb.z1 + 1.0f);
+
+        if (x0 < 0) {
+            x0 = 0;
+        }
+
+        if (y0 < 0) {
+            y0 = 0;
+        }
+
+        if (z0 < 0) {
+            z0 = 0;
+        }
+
+        if (x1 > width) {
+            x1 = width;
+        }
+
+        if (y1 > height) {
+            y1 = height;
+        }
+
+        if (z1 > depth) {
+            z1 = depth;
+        }
+
+        for(int x = x0; x < x1; ++x) {
+            for(int y = y0; y < y1; ++y) {
+                for(int z = z0; z < z1; ++z) {
+                    if (IsSolidTile(x, y, z)) {
+                        AABBs.Add(new AABB((float)x, (float)y, (float)z, (float)(x + 1), (float)(y + 1), (float)(z + 1)));
+                    }
+                }
+            }
+        }
+
+        return AABBs;
+    }
+
     // Método para obter o brilho (brightness) em uma posição (x, y, z)
     public float GetBrightness(int x, int y, int z) {
         float dark = 0.8f; // Valor de brilho para áreas escuras

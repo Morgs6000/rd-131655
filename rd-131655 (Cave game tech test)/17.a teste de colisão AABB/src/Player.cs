@@ -9,25 +9,37 @@ namespace RubyDung;
 public class Player {
     private Level level; // Referência ao nível (Level) ao qual o jogador pertence
 
+    public float xo;
+    public float yo;
+    public float zo;
+
     // Posição do jogador no espaço 3D
     public Vector3 position = Vector3.Zero; // Posição inicial no centro (0, 0, 0)
+    
+    public float xd;
+    public float yd;
+    public float zd;
+
+    public AABB aabb;
+
+    public bool onGround = false;
 
     // Vetores que definem a orientação da câmera
-    private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
+    // private Vector3 horizontal = Vector3.UnitX; // Vetor horizontal (eixo X)
     private Vector3 vertical = Vector3.UnitY;   // Vetor vertical (eixo Y)
     private Vector3 direction = Vector3.UnitZ;  // Vetor de direção (eixo Z)
 
     // Variáveis para controle de tempo e movimento suave
-    private float deltaTime = 0.0f; // Tempo decorrido desde o último frame
-    private float lastFrame = 0.0f; // Tempo do último frame
+    // private float deltaTime = 0.0f; // Tempo decorrido desde o último frame
+    // private float lastFrame = 0.0f; // Tempo do último frame
 
-    private float walking = 4.317f; // Velocidade de movimento do jogador
+    // private float walking = 4.317f; // Velocidade de movimento do jogador
     
     private Vector2 lastPos; // Última posição do mouse
 
     private float pitch; // Rotação vertical da câmera (para cima/baixo)
     private float yaw = -90.0f; // Rotação horizontal da câmera (para esquerda/direita)
-    private float roll; // Rotação de rotação (não utilizada neste exemplo)
+    // private float roll; // Rotação de rotação (não utilizada neste exemplo)
 
     private bool firstMouse = true; // Indica se é o primeiro movimento do mouse
 
@@ -51,9 +63,9 @@ public class Player {
 
     // Método chamado a cada frame para atualizar a lógica do jogador
     public void OnUpdateFrame(GameWindow window) {
-        Time(); // Atualiza o tempo decorrido
-        ProcessInput(window.KeyboardState); // Processa a entrada do teclado
         MouseCallBack(window.MouseState); // Processa o movimento do mouse
+        // Time(); // Atualiza o tempo decorrido
+        ProcessInput(window.KeyboardState); // Processa a entrada do teclado
     }
 
     // Método para redefinir a posição do jogador para uma posição aleatória no nível
@@ -71,53 +83,11 @@ public class Player {
         position.X = x;
         position.Y = y;
         position.Z = z;
-    }
 
-    // Método para calcular o tempo decorrido desde o último frame
-    private void Time() {
-        float currentFrame = (float)GLFW.GetTime(); // Obtém o tempo atual
-        deltaTime = currentFrame - lastFrame; // Calcula o tempo decorrido
-        lastFrame = currentFrame; // Atualiza o tempo do último frame
-    }
+        float w = 0.3f;
+        float h = 0.9f;
 
-    // Método para processar a entrada do teclado e mover o jogador
-    private void ProcessInput(KeyboardState keyboardState) {
-        float speed = walking * deltaTime; // Calcula a velocidade de movimento com base no tempo decorrido
-
-        float x = 0.0f; // Movimento no eixo X
-        float y = 0.0f; // Movimento no eixo Y
-        float z = 0.0f; // Movimento no eixo Z
-
-        // Verifica se a tecla R foi pressionada para redefinir a posição do jogador
-        if(keyboardState.IsKeyDown(Keys.R)) {
-            ResetPos();
-        }
-
-        // Verifica as teclas pressionadas e define a direção do movimento
-        if(keyboardState.IsKeyDown(Keys.W)) {
-            z++; // Move para frente
-        }
-        if(keyboardState.IsKeyDown(Keys.S)) {
-            z--; // Move para trás
-        }
-        if(keyboardState.IsKeyDown(Keys.A)) {
-            x--; // Move para a esquerda
-        }
-        if(keyboardState.IsKeyDown(Keys.D)) {
-            x++; // Move para a direita
-        }
-        
-        if(keyboardState.IsKeyDown(Keys.Space)) {
-            y++; // Move para cima
-        }
-        if(keyboardState.IsKeyDown(Keys.LeftShift)) {
-            y--; // Move para baixo
-        }
-
-        // Atualiza a posição do jogador com base na direção do movimento
-        position += x * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
-        position += y * speed * vertical; // Movimento vertical
-        position += z * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
+        aabb = new AABB(x - w, y - h, z - w, x + w, y + h, z + w);
     }
 
     // Método para processar o movimento do mouse e atualizar a direção da câmera
@@ -155,6 +125,136 @@ public class Player {
         direction.Y = (float)Math.Sin(MathHelper.DegreesToRadians(pitch));
         direction.Z = (float)Math.Cos(MathHelper.DegreesToRadians(pitch)) * (float)Math.Sin(MathHelper.DegreesToRadians(yaw));
         direction = Vector3.Normalize(direction); // Normaliza o vetor de direção
+    }
+
+    // Método para calcular o tempo decorrido desde o último frame
+    // private void Time() {
+    //     float currentFrame = (float)GLFW.GetTime(); // Obtém o tempo atual
+    //     deltaTime = currentFrame - lastFrame; // Calcula o tempo decorrido
+    //     lastFrame = currentFrame; // Atualiza o tempo do último frame
+    // }
+
+    // Método para processar a entrada do teclado e mover o jogador
+    private void ProcessInput(KeyboardState keyboardState) {
+        // float speed = walking * deltaTime; // Calcula a velocidade de movimento com base no tempo decorrido
+
+        xo = position.X;
+        yo = position.Y;
+        zo = position.Z;
+
+        float xa = 0.0f; // Movimento no eixo X
+        // float ya = 0.0f; // Movimento no eixo Y
+        float za = 0.0f; // Movimento no eixo Z
+
+        // Verifica se a tecla R foi pressionada para redefinir a posição do jogador
+        if(keyboardState.IsKeyDown(Keys.R)) {
+            ResetPos();
+        }
+
+        // Verifica as teclas pressionadas e define a direção do movimento
+        if(keyboardState.IsKeyDown(Keys.W)) {
+            za++; // Move para frente
+        }
+        if(keyboardState.IsKeyDown(Keys.S)) {
+            za--; // Move para trás
+        }
+        if(keyboardState.IsKeyDown(Keys.A)) {
+            xa--; // Move para a esquerda
+        }
+        if(keyboardState.IsKeyDown(Keys.D)) {
+            xa++; // Move para a direita
+        }
+        
+        // if(keyboardState.IsKeyDown(Keys.Space)) {
+        //     ya++; // Move para cima
+        // }
+        // if(keyboardState.IsKeyDown(Keys.LeftShift)) {
+        //     ya--; // Move para baixo
+        // }
+        if(keyboardState.IsKeyDown(Keys.Space) && onGround) {
+            yd =  0.12f;
+        }
+
+        // Atualiza a posição do jogador com base na direção do movimento
+        // position += xa * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
+        // position += ya * speed * vertical; // Movimento vertical
+        // position += za * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
+
+        MoveRelative(xa, za, onGround ? 0.02f : 0.005f);
+
+        yd = (float)((double)yd - 0.005f);
+
+        Move(xd, yd, zd);
+
+        this.xd *= 0.91f;
+        this.yd *= 0.98f;
+        this.zd *= 0.91f;
+
+        if (this.onGround) {
+            this.xd *= 0.8F;
+            this.zd *= 0.8F;
+        }
+    }
+
+    public void Move(float xa, float ya, float za) {
+        float xaOrg = xa;
+        float yaOrg = ya;
+        float zaOrg = za;
+
+        List<AABB> AABBs = level.GetCubes(aabb.Expand(xa, ya, za));
+
+        for(int i = 0; i < AABBs.Count; i++) {
+            ya = AABBs[i].ClipYCollide(aabb, ya);
+        }
+
+        aabb.Move(0.0f, ya, 0.0f);
+
+        for (int i = 0; i < AABBs.Count; i++) {
+            xa = AABBs[i].ClipXCollide(aabb, xa);
+        }
+
+        aabb.Move(xa, 0.0f, 0.0f);
+
+        for (int i = 0; i < AABBs.Count; ++i) {
+            za = AABBs[i].ClipZCollide(aabb, za);
+        }
+
+        aabb.Move(0.0f, 0.0f, za);
+
+        this.onGround = yaOrg != ya && yaOrg < 0.0F;
+
+        if (xaOrg != xa) {
+            this.xd = 0.0F;
+        }
+
+        if (yaOrg != ya) {
+            this.yd = 0.0F;
+        }
+
+        if (zaOrg != za) {
+            this.zd = 0.0F;
+        }
+
+        this.position.X = (aabb.x0 + aabb.x1) / 2.0F;
+        this.position.Y = aabb.y0 + 1.62F;
+        this.position.Z = (aabb.z0 + aabb.z1) / 2.0F;
+    }
+
+    public void MoveRelative(float xa, float za, float speed) {
+        float dist = xa * xa + za * za;
+
+        if (!(dist < 0.01F)) {
+            dist = speed / (float)Math.Sqrt((double)dist);
+
+            xa *= dist;
+            za *= dist;
+
+            float sin = (float)Math.Sin((double)this.yaw * Math.PI / 180.0);
+            float cos = (float)Math.Cos((double)this.yaw * Math.PI / 180.0);
+
+            this.xd += xa * cos - za * sin;
+            this.zd += za * cos + xa * sin;
+        }
     }
 
     // Método para criar uma matriz de visualização (LookAt)
