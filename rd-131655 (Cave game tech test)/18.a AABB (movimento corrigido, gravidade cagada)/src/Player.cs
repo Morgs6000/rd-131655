@@ -162,17 +162,77 @@ public class Player {
         if(keyboardState.IsKeyDown(Keys.LeftShift)) {
             ya--; // Move para baixo
         }
+        // if(keyboardState.IsKeyDown(Keys.Space) && onGround) {
+        //     pos_d.Y =  0.12f;
+        // }
 
         // Atualiza a posição do jogador com base na direção do movimento
         // position += xa * speed * Vector3.Normalize(Vector3.Cross(direction, vertical)); // Movimento horizontal
         // position += ya * speed * vertical; // Movimento vertical
         // position += za * speed * Vector3.Normalize(new Vector3(direction.X, 0.0f, direction.Z)); // Movimento para frente/trás
 
+        // MoveRelative(xa, za, onGround ? 0.02f : 0.005f);
         MoveRelative(xa, ya, za, speed);
 
+        //pos_d.Y = (float)((double)pos_d.Y - 0.005f);
+
         Move(pos_d.X, pos_d.Y, pos_d.Z);
+
+        // this.pos_d.X *= 0.91f;
+        // this.pos_d.Y *= 0.98f;
+        // this.pos_d.X *= 0.91f;
+
+        // if (this.onGround) {
+        //     this.pos_d.X *= 0.8F;
+        //     this.pos_d.Z *= 0.8F;
+        // }
     }
 
+    /*
+    public void Move(float xa, float ya, float za) {
+        float xaOrg = xa;
+        float yaOrg = ya;
+        float zaOrg = za;
+
+        List<AABB> AABBs = level.GetCubes(aabb.Expand(xa, ya, za));
+
+        for(int i = 0; i < AABBs.Count; i++) {
+            ya = AABBs[i].ClipYCollide(aabb, ya);
+        }
+
+        aabb.Move(0.0f, ya, 0.0f);
+
+        for (int i = 0; i < AABBs.Count; i++) {
+            xa = AABBs[i].ClipXCollide(aabb, xa);
+        }
+
+        aabb.Move(xa, 0.0f, 0.0f);
+
+        for (int i = 0; i < AABBs.Count; ++i) {
+            za = AABBs[i].ClipZCollide(aabb, za);
+        }
+
+        aabb.Move(0.0f, 0.0f, za);
+
+        this.onGround = yaOrg != ya && yaOrg < 0.0F;
+
+        if (xaOrg != xa) {
+            this.pos_d.X = 0.0F;
+        }
+
+        if (yaOrg != ya) {
+            this.pos_d.Y = 0.0F;
+        }
+
+        if (zaOrg != za) {
+            this.pos_d.Z = 0.0F;
+        }
+
+        this.position.X = (aabb.x0 + aabb.x1) / 2.0F;
+        this.position.Y = aabb.y0 + 1.62F;
+        this.position.Z = (aabb.z0 + aabb.z1) / 2.0F;
+    }
+    */
     public void Move(float xa, float ya, float za) {
         position.X += xa;
         position.Y += ya;
@@ -203,6 +263,24 @@ public class Player {
         this.position.Z = (aabb.z0 + aabb.z1) / 2.0F;
     }
 
+    /*
+    public void MoveRelative(float xa, float za, float speed) {
+        float dist = xa * xa + za * za;
+
+        if (!(dist < 0.01F)) {
+            dist = speed / (float)Math.Sqrt((double)dist);
+
+            xa *= dist;
+            za *= dist;
+
+            float sin = (float)Math.Sin((double)this.yaw * Math.PI / 180.0);
+            float cos = (float)Math.Cos((double)this.yaw * Math.PI / 180.0);
+
+            this.pos_d.X += xa * cos - za * sin;
+            this.pos_d.Z += za * cos + xa * sin;
+        }
+    }
+    */
     public void MoveRelative(float xa, float ya, float za, float speed) {
         pos_d = Vector3.Zero;
 
